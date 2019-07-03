@@ -22,10 +22,8 @@ router.get('/launches', async (req, res, next) => {
 
 router.get('/launch/:flightNumber', async (req, res, next) => {
 
-  console.log(req.params.flightNumber)
-
   if (!req.params.flightNumber) {
-    console.log("hi")
+
     res.status(400).send({
       error: "Flight Number is missing."
     })
@@ -35,8 +33,10 @@ router.get('/launch/:flightNumber', async (req, res, next) => {
     url: baseurl + '/launches/' + req.params.flightNumber,
     json: true
   }, function (error, response, launchDetails) {
+
     if (!error) {
       if (launchDetails.launch_site.site_id) {
+
         request({
           url: baseurl + '/launchpads/' + launchDetails.launch_site.site_id,
           json: true
@@ -51,12 +51,15 @@ router.get('/launch/:flightNumber', async (req, res, next) => {
             res.status(response.statusCode).send(error);
           }
         });
+
       } else {
+
         res.status(200).send({
           launchDetails,
           launchPadDetails: "No launch pad Found"
         })
       }
+
     } else {
       res.status(response.statusCode).send(error);
     }
