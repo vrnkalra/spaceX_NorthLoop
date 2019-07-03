@@ -35,6 +35,12 @@ router.get('/launch/:flightNumber', async (req, res, next) => {
   }, function (error, response, launchDetails) {
 
     if (!error) {
+      console.log(launchDetails);
+      if (launchDetails.error) {
+
+        res.status(200).send(launchDetails);
+        return
+      }
       if (launchDetails.launch_site.site_id) {
 
         request({
